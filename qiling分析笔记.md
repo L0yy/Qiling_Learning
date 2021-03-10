@@ -79,10 +79,10 @@ C Func
 ```
 
 
+qiling/loader 用于加载各种类型的文件，本文分析windwos程序加载
 
 
-
-
+分析到：Core.py:174 睡觉！
 
 
 
