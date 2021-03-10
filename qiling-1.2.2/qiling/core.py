@@ -159,7 +159,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
             if not ql_is_valid_arch(self._archtype):
                 raise QlErrorArch("Invalid Arch %s" % self._archtype)
 
-        self._loader = loader_setup(self._ostype, self)
+        self._loader = loader_setup(self._ostype, self)# 返回以一个PE句柄，类似CreateProcess返回的句柄
 
         #####################
         # Profile & Logging #
@@ -169,7 +169,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
         # Log's configuration
         
         # Setup output mode.
-        self._output = output_convert(self._output)
+        self._output = output_convert(self._output) # 设置日志输出等级
 
         self._log_file_fd, self._log_filter = ql_setup_logger(self,
                                                               self._log_file,
