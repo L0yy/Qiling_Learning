@@ -1,0 +1,37 @@
+# IDE left over
+.DS_Store
+.vscode
+.idea
+*.pyc
+*.cache
+*.cache2
+.*.swp
+*.raw
+
+# cache and misc
+qiling.egg-info/
+__pycache__/
+*.py[cod]
+build
+dist
+
+# test and logs
+jexamples/
+logs/
+log/
+test_qlog/
+log_test/
+qlog/
+qlogs/
+test_syscall_*.txt
+*.no.py
+.gitkeep
+test.file
+*.file
+*.qlog
+*.d
+*.o
+core
+*.perf
+examples/rootfs/x86_windows/Windows/registry
+examples/rootfs/x8664_windows/Windows/registry
