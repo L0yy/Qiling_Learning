@@ -145,7 +145,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
         # Loader #
         ##########
         if self._code is None:
-            guessed_archtype, guessed_ostype, guessed_archendian = ql_guess_emu_env(self._path)
+            guessed_archtype, guessed_ostype, guessed_archendian = ql_guess_emu_env(self._path)#获取目标文件格式
             if self._ostype is None:
                 self._ostype = guessed_ostype
             if self._archtype is None:
@@ -186,7 +186,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
         ########################
         # Archbit & Endianness #
         ########################
-        self._archbit = ql_get_arch_bits(self._archtype)
+        self._archbit = ql_get_arch_bits(self._archtype)#获取CPU架构信息
         self._pointersize = (self.archbit // 8)  
         
         # Endian for shellcode needs to set manually

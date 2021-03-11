@@ -407,13 +407,14 @@ def ql_guess_emu_env(path):
     if os.path.isfile(path) and (str(path)).endswith(".DOS_EXE"):
         return QL_ARCH.A8086, QL_OS.DOS, QL_ENDIAN.EL
 
-    arch, ostype, archendian = ql_elf_parse_emu_env(path)
+    arch, ostype, archendian = ql_elf_parse_emu_env(path)#检测目标文件是否是Liunx文件
+
 
     if arch == None or ostype == None or archendian == None:
-        arch, ostype, archendian = ql_macho_parse_emu_env(path)
+        arch, ostype, archendian = ql_macho_parse_emu_env(path)#检测目标文件是否是macho文件
 
     if arch == None or ostype == None or archendian == None:
-        arch, ostype, archendian = ql_pe_parse_emu_env(path)
+        arch, ostype, archendian = ql_pe_parse_emu_env(path)##检测目标文件是否是PE文件
   
     if ostype not in (QL_OS_ALL):
         raise QlErrorOsType("File does not belong to either 'linux', 'windows', 'freebsd', 'macos', 'ios', 'dos'")
