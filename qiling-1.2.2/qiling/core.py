@@ -201,18 +201,18 @@ class Qiling(QlCoreHooks, QlCoreStructs):
         ##############
         # Components #
         ##############
-        self._mem = component_setup("os", "memory", self)
-        self._reg = component_setup("arch", "register", self)
-        self._arch = arch_setup(self.archtype, self)
+        self._mem = component_setup("os", "memory", self)#初始化内存，主要是控制内存指针范围
+        self._reg = component_setup("arch", "register", self)#初始化寄存器环境
+        self._arch = arch_setup(self.archtype, self)#将unicorn中使用的寄存器用ql中的常量初始化
         
         # Once we finish setting up arch layer, we can init QlCoreHooks.
-        self.uc = self.arch.init_uc
+        self.uc = self.arch.init_uc#根据前面解析的文件类型对应arch，初始化unicorn对象
         QlCoreHooks.__init__(self, self.uc)
 
         self._os = os_setup(self.archtype, self.ostype, self)
 
         # Run the loader
-        self.loader.run()
+        self.loader.run()#核心代码 loader，不太明白hook功能
         
         # Setup Outpt
         self.os.setup_output()
