@@ -89,6 +89,9 @@ qiling/loader 用于加载各种类型的文件，本文分析windwos程序加�
 
 
 
+
+
+
 pe.OPTIONAL_HEADER.SizeOfStackReserve   Stack Size
 
 

@@ -159,7 +159,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
             if not ql_is_valid_arch(self._archtype):
                 raise QlErrorArch("Invalid Arch %s" % self._archtype)
 
-        self._loader = loader_setup(self._ostype, self)# 返回以一个PE句柄，类似CreateProcess返回的句柄
+        self._loader = loader_setup(self._ostype, self)# 用于后续展开PE，修复IAT，重定位，ldr、peb、teb、tib等等结构
 
         #####################
         # Profile & Logging #
@@ -209,7 +209,7 @@ class Qiling(QlCoreHooks, QlCoreStructs):
         self.uc = self.arch.init_uc#根据前面解析的文件类型对应arch，初始化unicorn对象
         QlCoreHooks.__init__(self, self.uc)
 
-        self._os = os_setup(self.archtype, self.ostype, self)
+        self._os = os_setup(self.archtype, self.ostype, self)#初始化GDT和设置unicorn hook回调
 
         # Run the loader
         self.loader.run()#核心代码 loader，不太明白hook功能

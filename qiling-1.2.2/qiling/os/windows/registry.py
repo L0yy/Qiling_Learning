@@ -39,7 +39,7 @@ class RegistryManager:
             self.hive = hive
         else:
             self.hive = os.path.join(ql.rootfs, "Windows", "registry")
-            ql.log.debug("Windows Registry PATH: %s" % self.hive)
+                ql.log.debug("Windows Registry PATH: %s" % self.hive)
             if not os.path.exists(self.hive) and not self.ql.code:
                 raise QlErrorFileNotFound(f"Error: Registry files not found in '{self.hive}'!")
 

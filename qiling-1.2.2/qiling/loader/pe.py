@@ -13,7 +13,7 @@ from qiling.os.windows.structs import *
 from qiling.exception import *
 from qiling.const import *
 from qiling.arch.x86_const import *
-from .loader import QlLoaderu
+from .loader import QlLoader
 from qiling.os.memory import QlMemoryHeap
 
 
@@ -195,7 +195,7 @@ class Process():
         if self.ql.archtype == QL_ARCH.X8664:
             # TEB
             self.ql.mem.write(gs + 0x30, self.ql.pack64(teb_addr))
-            # PEB
+            # PEBr
             self.ql.mem.write(gs + 0x60, self.ql.pack64(teb_addr + teb_size))
 
         self.TEB = self.ql.TEB = teb_data
@@ -434,7 +434,7 @@ class QlLoaderPE(QlLoader, Process):
         # compatible with ql.__enable_bin_patch()
         self.load_address = 0
         self.ql.os.heap = QlMemoryHeap(self.ql, self.ql.os.heap_base_address, self.ql.os.heap_base_address + self.ql.os.heap_base_size)
-        self.ql.os.setupComponents()
+        self.ql.os.setupComponents()#初始化windows组件
         self.ql.os.entry_point = self.entry_point
         cmdline = (str(self.ql.os.userprofile)) + "Desktop\\" + self.ql.targetname
         self.filepath = bytes(cmdline + "\x00", "utf-8")
@@ -549,7 +549,7 @@ class QlLoaderPE(QlLoader, Process):
             self.ql.mem.map(self.pe_image_address, self.align(self.pe_image_address_size, 0x1000), info="[PE]")
             self.pe.parse_data_directories()
             data = bytearray(self.pe.get_memory_mapped_image())
-            self.ql.mem.write(self.pe_image_address, bytes(data))
+            self.ql.mem.write(self.pe_image_address, bytes(data))#把实际执行数据存放到unicorn内存中去
             # setup IMAGE_LOAD_CONFIG_DIRECTORY
             if self.pe.OPTIONAL_HEADER.DATA_DIRECTORY[pefile.DIRECTORY_ENTRY['IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG']].VirtualAddress != 0:
                 SecurityCookie_rva = self.pe.DIRECTORY_ENTRY_LOAD_CONFIG.struct.SecurityCookie - self.pe.OPTIONAL_HEADER.ImageBase
@@ -582,8 +582,8 @@ class QlLoaderPE(QlLoader, Process):
                     super().load_dll(entry.dll, self.is_driver)
                     for imp in entry.imports:
                         # fix IAT
-                        # ql.log.info(imp.name)
-                        # ql.log.info(self.import_address_table[imp.name])
+                        self.ql.log.info(imp.name)
+                        self.ql.log.info(hex(imp.address))
                         if imp.name:
                             try:
                                 addr = self.import_address_table[dll_name][imp.name]
